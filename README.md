@@ -22,4 +22,4 @@ This project demonstrates object-oriented programming, file handling, input vali
 - Interactive terminal interface
 - External library usage (`pyfiglet`)
 
----
+---[numpy](../numpy)

@@ -28,7 +28,6 @@ class Restaurant:
     def __init__(self):
         self.menu = dict({})
         self.order = dict({})
-        self.total = 0
 
 
     def show_menu(self):
@@ -76,12 +75,13 @@ class Restaurant:
             raise ValueError(
                 "Please write the order in the giving sequence :)")
 
-        food, quantity = text.lower().split('x')
+        food = match.group(1).strip().lower()
+        quantity = int(match.group(2))
 
-        if food.strip().lower() not in list(self.menu.keys()):
+        if food.strip() not in list(self.menu.keys()):
             raise ValueError("The food is not in the menu")
 
-        return food.strip(), int(quantity.strip())
+        return food, quantity
 
 
     def repeat_order(self):
@@ -99,9 +99,10 @@ class Restaurant:
 
 
     def order_total(self):
-        for name, quantity  in self.order.items():
-            self.total += self.menu[name] * quantity
-        return self.total
+        total = 0
+        for name, quantity in self.order.items():
+            total += self.menu[name] * quantity
+        return total
 
 
 def main():
@@ -113,7 +114,7 @@ def main():
     rest.waiter()
     rest.order_confirm()
     print()
-    print('='*50)
+    print('=' * 50)
     print(f"Thanks for choosing us here is your total bill: ${rest.order_total()}")
     print('=' * 50)
 
