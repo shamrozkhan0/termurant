@@ -1,122 +1,92 @@
-""" A Simple Restaurant order program made in OOP using python for CS50 python course """
-import csv
-import re
-from pyfiglet import Figlet
+from datetime import datetime
 
-def verifier(msg):
-    while True:
-        print()
-        res = input(f"{msg}? (y/n): ").strip().lower()
+from restaurant import Restaurant, show_banner
+from admin import Admin
 
-        if res == 'y':
-            return True
-        elif res == 'n':
-            return False
+class Project:
+    def __init__(self, restaurant):
+        self.restaurant = restaurant
+
+    def get_time(self):
+        time = datetime.now().strftime("%H:%M")
+        return time
+
+    def greeting(self):
+        greeting = "Good Morning"
+        hour, min = self.get_time().split(':')
+        hour = int(hour)
+        if hour < 12:
+            greeting = "Good Morning"
+        elif hour < 18:
+            greeting = "Good Afternoon"
         else:
-            print()
-            print("Error: Please enter 'y' or 'n'")
+            greeting = "Good Evening"
+
+        return f"{greeting} ({self.get_time()})"
+
+    def admin_controls(self):
+        print("="*40, "Welcome To Admin Dashboard", "="*40)
+        admin = Admin(self.restaurant)
+
+        if not admin.authenticate_user():
+            print("="*40,"Exiting Admin Dashboard...", "="*40)
+            self.chooser()
+        else:
+            admin.admin_chooser()
 
 
-def show_banner():
-    """ SHows Banner in the terminal"""
-    f = Figlet(font="rowancap")
-    print(f.renderText("Welcome To Termurant"))
-
-
-class Restaurant:
-
-    def __init__(self):
-        self.menu = dict({})
-        self.order = dict({})
-
-
-    def show_menu(self):
-        """ Show menu """
-        print(f"{'='*11} Menu {'='*11}")
-        print(f'{"Item":<20} {"Price":>6}')
-        print("=" * 28)
-
-        with open("menu.csv", "r", encoding="utf-8") as file:
-            for row in csv.DictReader(file):
-                name = row["Name"]
-                price = int(row["Price"])
-                self.menu[name.lower()] = price
-                print(f'{name:<21} $ {price:02}')
-        print("=" * 28)
-
-
-    def waiter(self):
-        """ Ask User About there order """
-        while True:
-            try:
-                print()
-                item = input("What would you like to have? ")
-                food, quantity = self.validate_and_distribute(item)
-
-                if food in self.order:
-                    self.order[food.lower()] += quantity
-                else:
-                    self.order[food.lower()] = quantity
-
-                if not verifier("Anything else"):
-                    break
-
-            except ValueError as e:
-                print()
-                print(f"Error: {str(e)}")
-
-        self.repeat_order()
-
-
-    def validate_and_distribute(self, text):
-        """Summary"""
-        match = re.fullmatch(r"([a-zA-Z ]+)\s*[xX]\s*([1-9][0-9]*)", text)
-        if not match:
-            raise ValueError(
-                "Please write the order in the giving sequence :)")
-
-        food = match.group(1).strip().lower()
-        quantity = int(match.group(2))
-
-        if food.strip() not in list(self.menu.keys()):
-            raise ValueError("The food is not in the menu")
-
-        return food, quantity
-
-
-    def repeat_order(self):
+    def restaurant_controls(self):
+        rest = Restaurant()
+        print("=" * 40, "Ordering System", "="*40)
+        rest.show_menu()
         print()
-        print(f"{'='*15} Your Order {'='*15} ")
-
-        for key, value in self.order.items():
-            print(f"{key} x {value}")
-        print('='*42)
-
-
-    def order_confirm(self):
-        if not verifier("Is this your final order"):
-            self.waiter()
+        print("=" * 15, "CAUTION: WRITE YOUR ORDER IN THIS SEQUENCE i-e ( burger X 2 )", "=" * 15)
+        rest.waiter()
+        rest.order_confirm()
+        print()
+        print('=' * 50)
+        print(f"Thanks for choosing us here is your total bill: ${rest.order_total()}")
+        print('=' * 50)
 
 
-    def order_total(self):
-        total = 0
-        for name, quantity in self.order.items():
-            total += self.menu[name] * quantity
-        return total
+    def chooser(self):
+        commands = ["Order System", "Admin Controls"]
+
+        print(self.greeting())
+        print()
+        print("Controls Options:")
+
+        for i, command in enumerate(commands, start=1):
+            print(f"{i} = {command}")
+
+        while True:
+            print()
+            choice = input("Choose an Option: ").strip()
+
+            if not choice.isdigit():
+                print("Error: Enter the index number")
+                continue
+
+            match int(choice):
+                case 1:
+                    self.restaurant_controls()
+                    return
+                case 2:
+                    self.admin_controls()
+                    return
+                case _:
+                    print("Error: Enter the correct option :)")
+
 
 
 def main():
-    rest = Restaurant()
+    restaurant = Restaurant()
+    main = Project(restaurant)
     show_banner()
-    rest.show_menu()
-    print()
-    print('=============== CAUTION: WRITE YOUR ORDER IN THIS SEQUENCE i-e ( burger X 2 ) =============== ')
-    rest.waiter()
-    rest.order_confirm()
-    print()
-    print('=' * 50)
-    print(f"Thanks for choosing us here is your total bill: ${rest.order_total()}")
-    print('=' * 50)
+    main.chooser()
+
+
+
 
 
 if __name__ == '__main__':

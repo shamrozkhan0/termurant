@@ -1,4 +1,4 @@
-from project import Restaurant
+from restaurant import Restaurant
 import pytest
 
 def test_validate_and_distribute():
