@@ -50,18 +50,21 @@ class Project:
 
 
     def chooser(self):
-        commands = ["Order System", "Admin Controls"]
+        commands = ["Restaurant Order System", "Admin Controls"]
 
         print(self.greeting())
         print()
-        print("Controls Options:")
+        print("="*30,"Controls Options:","="*30)
 
         for i, command in enumerate(commands, start=1):
             print(f"{i} = {command}")
 
+        print("="*80)
+
+
         while True:
             print()
-            choice = input("Choose an Option: ").strip()
+            choice = input("Choose An Option: ").strip()
 
             if not choice.isdigit():
                 print("Error: Enter the index number")
