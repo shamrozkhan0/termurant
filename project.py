@@ -24,30 +24,6 @@ class Project:
 
         return f"{greeting} ({self.get_time()})"
 
-    def admin_controls(self):
-        print("="*40, "Welcome To Admin Dashboard", "="*40)
-        admin = Admin(self.restaurant)
-
-        if not admin.authenticate_user():
-            print("="*40,"Exiting Admin Dashboard...", "="*40)
-            self.chooser()
-        else:
-            admin.admin_chooser()
-
-
-    def restaurant_controls(self):
-        rest = Restaurant()
-        print("=" * 40, "Ordering System", "="*40)
-        rest.show_menu()
-        print()
-        print("=" * 15, "CAUTION: WRITE YOUR ORDER IN THIS SEQUENCE i-e ( burger X 2 )", "=" * 15)
-        rest.waiter()
-        rest.order_confirm()
-        print()
-        print('=' * 50)
-        print(f"Thanks for choosing us here is your total bill: ${rest.order_total()}")
-        print('=' * 50)
-
 
     def chooser(self):
         commands = ["Restaurant Order System", "Admin Controls"]
@@ -81,15 +57,36 @@ class Project:
                     print("Error: Enter the correct option :)")
 
 
+    def admin_controls(self):
+        print("="*40, "Welcome To Admin Dashboard", "="*40)
+        admin = Admin(self.restaurant)
+
+        if not admin.authenticate_user():
+            print("="*40,"Exiting Admin Dashboard...", "="*40)
+            self.chooser()
+        else:
+            admin.admin_chooser()
+
+
+    def restaurant_controls(self):
+        rest = self.restaurant
+        print("=" * 40, "Ordering System", "="*40)
+        rest.show_menu()
+        print()
+        print("=" * 15, "CAUTION: WRITE YOUR ORDER IN THIS SEQUENCE i-e ( burger X 2 )", "=" * 15)
+        rest.waiter()
+        rest.order_confirm()
+        print()
+        print('=' * 50)
+        print(f"Thanks for choosing us here is your total bill: ${rest.order_total()}")
+        print('=' * 50)
+
 
 def main():
     restaurant = Restaurant()
     main = Project(restaurant)
     show_banner()
     main.chooser()
-
-
-
 
 
 if __name__ == '__main__':

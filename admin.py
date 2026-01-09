@@ -2,7 +2,7 @@ import csv
 
 class Admin:
     def __init__(self,restaurant):
-        self._password = "admin123"
+        self._password = "admin123" # Intentionally hardcoded the password
         self.restaurant = restaurant
 
 
@@ -27,6 +27,8 @@ class Admin:
         data = {}
         with open("menu.csv", "r", newline="") as file:
             for row in csv.DictReader(file):
+                if not row or not row.get("Name") or not row.get("Price"):
+                    continue
                 data[row["Name"]] = int(row["Price"])
 
         return data
@@ -50,7 +52,7 @@ class Admin:
         while True:
             food_price = input("Enter food price: ").strip()
 
-            if food_price.isdigit() or int(food_price) > 0:
+            if food_price.isdigit() and int(food_price) > 0:
                 break
 
             print()

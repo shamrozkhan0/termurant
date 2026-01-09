@@ -33,8 +33,12 @@ class Restaurant:
         print(f'{"Item":<20} {"Price":>6}')
         print("=" * 28)
 
-        with open("menu.csv", "r", encoding="utf-8") as file:
+        with (open("menu.csv", "r", encoding="utf-8", newline='') as file):
             for row in csv.DictReader(file):
+
+                if not row or not row.get("Name") or not row.get("Price"):
+                    continue
+
                 name = row["Name"]
                 price = int(row["Price"])
                 self.menu[name.lower()] = price
