@@ -14,12 +14,13 @@ class Admin:
 
     def authenticate_user(self):
         while True:
+            print()
             password = input("(type exit to exist) Enter Password: ").strip()
+            print()
             if password.lower() == "exit":
                     return False
             if self._check_password(password):
                     return True
-            print()
             print("Error Incorrect Password")
 
 
@@ -35,6 +36,8 @@ class Admin:
 
 
     def add_food_in_menu(self):
+        print()
+        self.restaurant.show_menu()
         data = self.get_csv_data()
 
         while True:
@@ -50,7 +53,7 @@ class Admin:
             break
 
         while True:
-            food_price = input("Enter food price: ").strip()
+            food_price = input(f"Enter {food_name} price: ").strip()
 
             if food_price.isdigit() and int(food_price) > 0:
                 break
@@ -99,7 +102,7 @@ class Admin:
             data[key] = price
 
             print()
-            re_edit = input("Do you want to edit again? (y/n): ").strip().lower()
+            re_edit = input("Do you want to edit again or something else? (y/n): ").strip().lower()
 
             if re_edit == "n":
                 self.update_csv(data)
@@ -129,7 +132,6 @@ class Admin:
         print("="*40,"Successfully Edited the price ", "="*40)
 
 
-
     def admin_chooser(self):
         commands = ['Editing The existing Menu', 'Add New Item In Menu']
         print("="*40, "Admin Controls", "="*40)
@@ -145,6 +147,7 @@ class Admin:
             if not option.isdigit():
                 print
                 print("Error: Enter a correct number")
+                continue
 
             match int(option):
                 case 1:

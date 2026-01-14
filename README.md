@@ -15,11 +15,19 @@ The admin can:
 The program is designed using Object-Oriented Programming (OOP) and focuses
 on practicing core Python concepts.
 
+### **How To Run:** 
+- `Python project.py` for running the project
+- `pytest test_project.py` for test
+
+
 ## Motivation
-I built this project to practice and apply multiple Python programming
-concepts in a single, real-world–style application.
+I built Termurant to apply multiple Python concepts into a single
+real-world–style project. The goal was to practice writing clean, modular,
+and testable code while simulating a realistic restaurant ordering system.
 
 This project demonstrates the use of:
+- Python basics
+- Arrays
 - Object-Oriented Programming (OOP)
 - File Handling
 - CSV file processing
@@ -36,7 +44,8 @@ This project demonstrates the use of:
 
 ## What I Learned
 Through this project, I gained hands-on experience with:
-- Object-Oriented Programming
-- File handling using CSV files
-- Writing robust error-handling logic
-- Validating user input effectively
+- Designing programs using OOP principles
+- Reading and writing CSV files
+- Validating and sanitizing user input
+- Writing meaningful unit tests with pytest
+- Structuring a complete Python project
